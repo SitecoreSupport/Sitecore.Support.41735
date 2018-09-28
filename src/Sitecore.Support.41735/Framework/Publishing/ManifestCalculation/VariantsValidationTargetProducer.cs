@@ -134,7 +134,6 @@ namespace Sitecore.Support.Framework.Publishing.ManifestCalculation
 
           // Find target variants that are newer or the same as the base item on the target
           var targetVariances = context.TargetMetadata.GetAllVariances()
-              .Where(v => v.VariantLastModified >= context.TargetMetadata.BaseLastModified)
               .ToArray();
           
           if (targetVariances.Any())
@@ -143,7 +142,7 @@ namespace Sitecore.Support.Framework.Publishing.ManifestCalculation
             var targetProperties = context.TargetMetadata.Properties;
             var sourceProperties = context.Candidate.Node.Properties;
 
-            if (targetVariances.Max(v => v.VariantLastModified) < context.Candidate.Node.BaseLastModified
+            if (context.TargetMetadata.BaseLastModified < context.Candidate.Node.BaseLastModified
             && (targetProperties.Name != sourceProperties.Name
             || targetProperties.ParentId != sourceProperties.ParentId
             || targetProperties.TemplateId != sourceProperties.TemplateId
